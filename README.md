@@ -49,8 +49,8 @@ Detail Pipeline and Workflow of the System:
 
 ### E. Team Members and Roles:
 - Luong Tran Sang: Front-end Developer 
-- Thai Minh Dung:
-- Nguyen Hoang Long: 
+- Thai Minh Dung: Data Engineer
+- Nguyen Hoang Long: Quality Assessment
 
 ### F. Project Timeline
 The Gantt Chart show the detail workload of our team through the period time of project:
