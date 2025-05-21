@@ -45,7 +45,7 @@ The Riot Games Analytics Pipeline addresses the challenge faced by players who w
 - Development: Jupyter Notebooks for exploratory analysis and prototyping
 
 Detail Pipeline and Workflow of the System:
-![alt text](pipeline.png)
+![alt text](images/pipeline.png)
 
 ### E. Team Members and Roles:
 - Luong Tran Sang: Front-end Developer 
@@ -55,7 +55,7 @@ Detail Pipeline and Workflow of the System:
 ### F. Project Timeline
 The Gantt Chart show the detail workload of our team through the period time of project:
 
-![alt text](timeline.png)
+![alt text](images/timeline.png)
 
 
 
