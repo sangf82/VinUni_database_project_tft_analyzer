@@ -11,16 +11,17 @@ st.set_page_config(page_title="TFT Stats Portal", page_icon="🎮")
 DB_CONFIG = {
     "host":     os.getenv("DB_HOST", "localhost"),
     "port":     int(os.getenv("DB_PORT", 3306)),
-    "user":     os.getenv("DB_USER", "sanglt"),
+    "user":     os.getenv("DB_USER", "root"),
     "password": os.getenv("DB_PASSWORD", "123456"),
     "database": os.getenv("DB_NAME", "tft_app"),
 }
 
+AREA = "asia"
 RIOT_KEY = os.getenv("RIOT_API_KEY")
 HEADERS  = {"X-Riot-Token": RIOT_KEY}
 REGION   = "vn2"
 
-RIOTID_PATTERN = re.compile(r"^[A-Za-z0-9]{1,16}#[A-Za-z0-9]{4}$")
+RIOTID_PATTERN = re.compile(r"^.+#[A-Za-z0-9]{1,10}$")
 
 def get_conn():
     return mysql.connector.connect(**DB_CONFIG)
@@ -58,14 +59,14 @@ def get_user(name):
     conn = get_conn()
     cursor = conn.cursor()
     cursor.execute(
-        "SELECT riotid, pw_hash FROM users WHERE name=%s",
+        "SELECT name, riotid, pw_hash FROM users WHERE name=%s",
         (name,)
     )
     row = cursor.fetchone()
     cursor.close()
     conn.close()
     if row:
-        return {"riotid": row[0], "pw_hash": row[1]}
+        return {"name": row[0], "riotid": row[1], "pw_hash": row[2]}
     return None
 
 def create_user(name, riotid, pw_plain):
@@ -81,16 +82,25 @@ def create_user(name, riotid, pw_plain):
     conn.close()
 
 @st.cache_data(ttl=600)
-def fetch_tft_stats(riotid):
-    summoner_name = riotid.split("#")[0]
-    url1 = f"https://{REGION}.api.riotgames.com/tft/summoner/v1/summoners/by-name/{summoner_name}"
-    r1 = requests.get(url1, headers=HEADERS)
+def fetch_tft_stats(riotid, name):
+    summoner_name = riotid.replace("#", "/")
+    st.write(f"Fetching stats for **{name}**...")
+    
+    url1 = f"https://{AREA}.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{summoner_name}?api_key={RIOT_KEY}"
+    r1 = requests.get(url1)
     if r1.status_code != 200:
-        return None
-    enc_id = r1.json()["id"]
-    url2 = f"https://{REGION}.api.riotgames.com/tft/league/v1/entries/by-summoner/{enc_id}"
-    r2 = requests.get(url2, headers=HEADERS)
-    return r2.json()
+        return r1.status_code
+    else:
+        st.write("Successfully fetched Riot ID.")
+        res_1 = r1.json()
+        enc_id = res_1["puuid"]
+
+    url2 = f"https://{REGION}.api.riotgames.com/tft/league/v1/by-puuid/{enc_id}?api_key={RIOT_KEY}"
+    r2 = requests.get(url2)
+    if r2.status_code != 200:
+        return r2.status_code
+    else:
+        return r2.json()
 
 init_db()
 
@@ -109,7 +119,7 @@ if not st.session_state.logged_in:
                 if not name:
                     st.error("Please enter a username.")
                 elif not riotid or not RIOTID_PATTERN.match(riotid):
-                    st.error("Please enter a valid Riot ID in format username#1234 (tag must be exactly 4 letters/digits).")
+                    st.error("Please enter a valid Riot ID in format username#1234.")
                 elif not pw:
                     st.error("Please enter a password.")
                 elif get_user(name):
@@ -136,18 +146,25 @@ if not st.session_state.logged_in:
                     st.error(f"Login error: {e}")
 
 else:
-    st.sidebar.success(f"Logged in as **{st.session_state.user}**")
+    if "user" in st.session_state:
+        st.sidebar.success(f"Logged in as **{st.session_state.user}**")
     if st.sidebar.button("Logout"):
         st.session_state.clear()
         st.experimental_rerun()
 
     user = get_user(st.session_state.user)
-    st.title(f"TFT Stats for {user['riotid']}")
-    stats = fetch_tft_stats(user["riotid"])
-    if not stats:
+    st.title(f"TFT Stats for {user['name']}")
+    stats = fetch_tft_stats(user["riotid"],user["name"])
+    
+    if not stats or (isinstance(stats, int) and stats != 200):
         st.warning("Couldn’t fetch stats. Check your Riot ID or API key.")
+        st.code(str(stats), language="json")
     else:
-        for e in stats:
-            st.markdown(f"**{e['queueType']}** — Tier {e['tier']} {e['rank']} ({e['leaguePoints']} LP)")
-            st.markdown(f"W: {e['wins']} • L: {e['losses']}")
-            st.markdown("---")
+        if isinstance(stats, list) and stats:
+            for e in stats:
+                st.markdown(f"**{e['queueType']}** — Tier {e['tier']} {e['rank']} ({e['leaguePoints']} LP)")
+                st.markdown(f"W: {e['wins']} • L: {e['losses']}")
+                st.markdown("---")
+        else:
+            st.info("No ranked stats found for this account.")
+            st.code(str(stats), language="json")
