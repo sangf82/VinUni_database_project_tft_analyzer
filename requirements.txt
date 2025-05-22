@@ -1,7 +1,10 @@
 streamlit
 mysql-connector-python
 bcrypt
+dotenv
+pandas
+pygwalker
+streamlit-on-Hover-tabs
 
-
-mysql
-
+streamlit-login-auth-ui
+trycourier

@@ -86,17 +86,31 @@ def fetch_tft_stats(riotid, name):
     summoner_name = riotid.replace("#", "/")
     st.write(f"Fetching stats for **{name}**...")
     
-    url1 = f"https://{AREA}.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{summoner_name}?api_key={RIOT_KEY}"
-    r1 = requests.get(url1)
+    r1 = requests.get(
+        url = f"https://{AREA}.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{summoner_name}",
+        headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+                "Accept-Language": "vi,en-US;q=0.9,en;q=0.8",
+                "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
+                "Origin": "https://developer.riotgames.com",
+                "X-Riot-Token": f"{RIOT_KEY}",
+            }
+        )
     if r1.status_code != 200:
         return r1.status_code
     else:
         st.write("Successfully fetched Riot ID.")
         res_1 = r1.json()
         enc_id = res_1["puuid"]
-
-    url2 = f"https://{REGION}.api.riotgames.com/tft/league/v1/by-puuid/{enc_id}?api_key={RIOT_KEY}"
-    r2 = requests.get(url2)
+ 
+    r2 = requests.get(
+        url = f"https://{REGION}.api.riotgames.com/tft/league/v1/by-puuid/{enc_id}?api_key={RIOT_KEY}",
+        headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0",
+                "Accept-Language": "vi,en-US;q=0.9,en;q=0.8",
+                "Accept-Charset": "application/x-www-form-urlencoded; charset=UTF-8",
+                "Origin": "https://developer.riotgames.com"  
+        })
     if r2.status_code != 200:
         return r2.status_code
     else:
@@ -147,7 +161,8 @@ if not st.session_state.logged_in:
 
 else:
     if "user" in st.session_state:
-        st.sidebar.success(f"Logged in as **{st.session_state.user}**")
+        # st.sidebar.success(f"Logged in as **{st.session_state.user}**")
+        st.sidebar.success("You can now check your TFT stats.")
     if st.sidebar.button("Logout"):
         st.session_state.clear()
         st.experimental_rerun()
