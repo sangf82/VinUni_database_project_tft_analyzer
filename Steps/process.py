@@ -49,14 +49,14 @@ def process(data, game_name, tag_line, num_matches=5):
         gameName = game_name
         tagLine = tag_line
         lastLP = int(re.findall(r'\d+', data['ranked']['rating_text'])[0]) 
-        gmaePlayed = int(data['ranked']['num_games'])
+        gamePlayed = int(data['ranked']['num_games'])
         
         PLayer = {
             'puuid': puuid,
             'gameName': gameName,
             'tagLine': tagLine,
             'lastLP': lastLP,
-            'gamePlayed': gmaePlayed
+            'gamePlayed': gamePlayed
             }
         
         Match = []
