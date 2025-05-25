@@ -43,8 +43,8 @@ def extract_data_from_api(api_key, tag_line, game_name):
         print(f"Error fetching data from API: {e}")
         return None
     
-if __name__ == "__main__":
-    tag_line = 'YBY1'
-    game_name = 'TLN YBY1'
-    api_key = "RGAPI-52d87177-b111-4c6e-99bf-35ba3e79325c"
-    extract_data_from_api(api_key, tag_line, game_name)
+# if __name__ == "__main__":
+#     tag_line = 'YBY1'
+#     game_name = 'TLN YBY1'
+#     api_key = 
+#     extract_data_from_api(api_key, tag_line, game_name)
