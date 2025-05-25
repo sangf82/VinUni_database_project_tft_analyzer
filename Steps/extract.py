@@ -38,7 +38,7 @@ def extract_data_from_api(api_key, tag_line, game_name):
         data = response.json()
         with open("data.json", "w") as f:
             json.dump(data, f, indent=4)  # save json to debug
-        return data
+        return data, game_name, tag_line
     except requests.exceptions.RequestException as e:
         print(f"Error fetching data from API: {e}")
         return None
