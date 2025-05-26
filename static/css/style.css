@@ -6,7 +6,7 @@
     --accent-green: #6c757d;
     
     /* Complementary Colors */
-    --gold: #c7b576;
+    --gold: #cbb46c;
     --silver: #a9a9a9;
     --bronze: #796547;
     --top_4: #616669;
@@ -20,6 +20,18 @@
     /* Text Colors */
     --text-light: #f8f9fa;
     --text-muted: #6c757d;
+
+    /* Rank Badges */
+    --rank--iron: #51484a;
+    --rank--bronze: #8c513a;
+    --rank--silver: #80989d;
+    --rank--gold: #cc8837;
+    --rank--platinum: #4e9996;
+    --rank_emerald: #149c3a;
+    --rank--diamond: #576bce;
+    --rank--master: #a3584e;
+    --rank--grandmaster: #72636f;
+    --rank--challenger: #f4c874;
 }
 
 /* Global Styles */
@@ -143,45 +155,45 @@ body {
 
 /* Placement Colors */
 .placement-1 { 
-    background: linear-gradient(45deg, #ffd700, #ffed4e) !important; 
+    background: linear-gradient(45deg, var(--gold), #d4c07a) !important; 
     color: #000 !important;
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    box-shadow: 0 0 10px rgba(203, 180, 108, 0.5);
 }
 
 .placement-2 { 
-    background: linear-gradient(45deg, #c0c0c0, #e0e0e0) !important; 
+    background: linear-gradient(45deg, var(--silver), #b8b8b8) !important; 
     color: #000 !important;
-    box-shadow: 0 0 10px rgba(192, 192, 192, 0.5);
+    box-shadow: 0 0 10px rgba(169, 169, 169, 0.5);
 }
 
 .placement-3 { 
-    background: linear-gradient(45deg, #cd7f32, #daa55a) !important; 
+    background: linear-gradient(45deg, var(--bronze), #8a7553) !important; 
     color: #fff !important;
-    box-shadow: 0 0 10px rgba(205, 127, 50, 0.5);
+    box-shadow: 0 0 10px rgba(121, 101, 71, 0.5);
 }
 
 .placement-4 { 
-    background: linear-gradient(45deg, #28a745, #40c463) !important; 
+    background: linear-gradient(45deg, var(--top_4), #6f7478) !important; 
     color: #fff !important;
 }
 
 .placement-5 { 
-    background: linear-gradient(45deg, #17a2b8, #20c997) !important; 
+    background: linear-gradient(45deg, var(--other_top), #565a5c) !important; 
     color: #fff !important;
 }
 
 .placement-6 { 
-    background: linear-gradient(45deg, #ffc107, #ffda0a) !important; 
-    color: #000 !important;
+    background: linear-gradient(45deg, var(--other_top), #565a5c) !important; 
+    color: #fff !important;
 }
 
 .placement-7 { 
-    background: linear-gradient(45deg, #dc3545, #ff4757) !important; 
+    background: linear-gradient(45deg, var(--other_top), #565a5c) !important; 
     color: #fff !important;
 }
 
 .placement-8 { 
-    background: linear-gradient(45deg, #6c757d, #868e96) !important; 
+    background: linear-gradient(45deg, var(--other_top), #565a5c) !important; 
     color: #fff !important;
 }
 
