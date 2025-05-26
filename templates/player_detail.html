@@ -1,0 +1,499 @@
+{% extends "base.html" %}
+
+{% block title %}
+{% if user %}
+{{ user.riot_id }} - Player Stats
+{% elif leaderboard_entry %}
+{{ leaderboard_entry.riot_id }} - Player Stats
+{% else %}
+Player Not Found
+{% endif %}
+- TFT Analyzer
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    {% if limited_view and leaderboard_entry %}
+    <!-- Limited view for leaderboard players -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-dark border-warning">
+                <div class="card-body text-center py-5">
+                    <div class="player-header">
+                        <div class="player-avatar mb-3">
+                            <div class="bg-warning rounded-circle d-inline-flex align-items-center justify-content-center" 
+                                 style="width: 80px; height: 80px;">
+                                <i class="fas fa-user fa-2x text-dark"></i>
+                            </div>
+                        </div>
+                        <h2 class="text-white mb-2">{{ leaderboard_entry.player_name }}</h2>
+                        <p class="text-muted mb-3">#{{ leaderboard_entry.tagline }}</p>
+                        
+                        <div class="rank-display mb-4">
+                            <span class="badge bg-warning fs-5 px-4 py-2">
+                                {{ leaderboard_entry.rank_display }}
+                            </span>
+                        </div>
+                        
+                        <div class="row text-center">
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <h4 class="text-warning">{{ leaderboard_entry.win_rate }}%</h4>
+                                    <small class="text-muted">Win Rate</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <h4 class="text-info">{{ leaderboard_entry.average_placement }}</h4>
+                                    <small class="text-muted">Avg Placement</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <h4 class="text-success">{{ leaderboard_entry.games_played }}</h4>
+                                    <small class="text-muted">Games Played</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="stat-card">
+                                    <h4 class="text-warning">#{{ leaderboard_entry.rank_position }}</h4>
+                                    <small class="text-muted">Leaderboard Rank</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                <i class="fas fa-info-circle me-2"></i>
+                This player is not registered with TFT Analyzer. 
+                <a href="{{ url_for('register') }}" class="alert-link">Create an account</a> 
+                to view detailed statistics and match history.
+            </div>
+        </div>
+    </div>
+    
+    {% else %}
+    <!-- Full view for registered users -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="{{ url_for('leaderboard') }}" class="btn btn-outline-secondary mb-3">
+                        <i class="fas fa-arrow-left me-1"></i> Back to Leaderboard
+                    </a>
+                    <h1 class="text-white mb-1">{{ user.username }}</h1>
+                    <p class="text-muted mb-0">
+                        <i class="fas fa-gamepad me-1"></i>
+                        {{ user.riot_id }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Player Header Card -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-dark border-success">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-2 text-center">
+                            <div class="player-avatar">
+                                <div class="bg-success rounded-circle d-inline-flex align-items-center justify-content-center" 
+                                     style="width: 80px; height: 80px;">
+                                    <i class="fas fa-user fa-2x text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="text-white mb-2">{{ user.username }}</h3>
+                            <p class="text-muted mb-2">{{ user.riot_id }}</p>
+                            <div class="rank-display">
+                                <span class="badge bg-warning fs-6 px-3 py-2">
+                                    {{ stats.rank_display }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row text-center">
+                                <div class="col-4">
+                                    <div class="stat-item">
+                                        <h5 class="text-success mb-0">{{ "%.1f"|format(stats.win_rate) }}%</h5>
+                                        <small class="text-muted">Win Rate</small>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="stat-item">
+                                        <h5 class="text-info mb-0">{{ "%.1f"|format(stats.top_four_rate) }}%</h5>
+                                        <small class="text-muted">Top 4 Rate</small>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="stat-item">
+                                        <h5 class="text-warning mb-0">{{ stats.games_played }}</h5>
+                                        <small class="text-muted">Games Played</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LP History Chart -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card bg-dark border-secondary">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-line me-2"></i>
+                        LP History (Last 100 Matches)
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="lpChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Placement Analysis -->
+    <div class="row g-4 mb-4">
+        <!-- Placement Distribution -->
+        <div class="col-lg-6">
+            <div class="card bg-dark border-secondary h-100">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>
+                        Placement Distribution (Last 50 Matches)
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="placementChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Placements Grid -->
+        <div class="col-lg-6">
+            <div class="card bg-dark border-secondary h-100">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-th me-2"></i>
+                        Recent Placements (Last 20 Matches)
+                    </h5>
+                </div>
+                <div class="card-body d-flex justify-content-center align-items-center">
+                    {% if recent_placements %}
+                        <div class="placement-grid">
+                            {% for placement in recent_placements %}
+                                <div class="placement-square placement-{{ placement }}">
+                                    {{ placement }}
+                                </div>
+                            {% endfor %}
+                            {% for i in range(20 - recent_placements|length) %}
+                                <div class="placement-square bg-secondary text-white">
+                                    ?
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center text-muted">
+                            <i class="fas fa-gamepad fa-2x mb-3"></i>
+                            <p>No recent matches to display</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Games - Exact MetaTFT Style -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card bg-dark border-secondary">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center" style="background: #2d3748 !important; border-bottom: 1px solid #4a5568;">
+                    <h3 class="mb-0 text-white fw-bold">Recent Games</h3>
+                    <div class="dropdown">
+                        <span class="text-muted">Percentiles: <span class="text-white">Overall</span> <i class="fas fa-chevron-down ms-1"></i></span>
+                    </div>
+                </div>
+                <div class="card-body p-0" style="background: #1a202c;">
+                    {% if recent_matches %}
+                        <div class="space-y-0">
+                            {% for match in recent_matches %}
+                            <div class="match-container bg-gray-700 hover:shadow-md transition-shadow duration-200" style="background: #374151; border-bottom: 1px solid #4b5563;" data-match-id="{{ match.id }}">
+                                <!-- Match Row Header -->
+                                <div class="match-header p-4 cursor-pointer d-flex align-items-center" onclick="toggleMatch('{{ match.id }}')" style="transition: background-color 0.2s;">
+                                    <!-- Placement Badge -->
+                                    <div class="placement-indicator me-3 d-flex align-items-center justify-content-center fw-bold rounded" 
+                                         style="width: 48px; height: 48px; font-size: 20px; 
+                                         background: {% if match.placement <= 4 %}#059669{% else %}#dc2626{% endif %}; 
+                                         color: white;">
+                                        {{ match.placement }}
+                                    </div>
+                                    
+                                    <!-- Game Info Section -->
+                                    <div class="match-info d-flex align-items-center me-4">
+                                        <!-- Player Avatar -->
+                                        <div class="player-avatar me-3 position-relative">
+                                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" 
+                                                 style="width: 32px; height: 32px; background: #6366f1;">
+                                                <span class="text-white fw-bold" style="font-size: 14px;">{{ user.riot_name[0] if user else 'P' }}</span>
+                                            </div>
+                                            <div class="position-absolute" style="bottom: -2px; right: -2px; width: 12px; height: 12px; background: #f59e0b; border-radius: 50%; border: 1px solid #374151;"></div>
+                                        </div>
+                                        
+                                        <!-- Match Details -->
+                                        <div>
+                                            <div class="text-white fw-semibold" style="font-size: 16px;">Ranked</div>
+                                            <div class="text-gray-400" style="font-size: 12px;">
+                                                {{ match.played_at.strftime('%d %b %Y') if match.played_at else 'Unknown date' }}
+                                            </div>
+                                            <div class="text-gray-400" style="font-size: 12px;">
+                                                {{ match.game_length_formatted if match.game_length else '32:40' }} • 6-2
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- LP Section -->
+                                    <div class="lp-section me-4 text-center">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-sword me-1" style="color: #9ca3af; font-size: 12px;"></i>
+                                            <span class="text-white fw-bold me-2" style="font-size: 14px;">{{ match.lp_change|abs if match.lp_change else 126 }}</span>
+                                            <i class="fas fa-coins" style="color: #f59e0b; font-size: 14px;"></i>
+                                            <span class="text-warning fw-bold ms-1" style="font-size: 14px;">{{ (match.lp_after % 100) if match.lp_after else 70 }}</span>
+                                        </div>
+                                        <div class="text-gray-400" style="font-size: 11px;">{{ match.lp_after }} LP</div>
+                                    </div>
+                                    
+                                    <!-- Champion Grid -->
+                                    <div class="team-comp-preview d-flex flex-wrap me-3" style="gap: 2px; width: 200px;">
+                                        {% for pick in match.champion_picks[:8] %}
+                                        <div class="champion-unit position-relative">
+                                            <img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{ pick.champion.name.replace(' ', '').replace("'", '').replace('.', '') }}.png" 
+                                                 alt="{{ pick.champion.name }}" 
+                                                 class="rounded"
+                                                 style="width: 24px; height: 24px; border: 1px solid 
+                                                 {% if pick.champion.cost == 1 %}#6b7280
+                                                 {% elif pick.champion.cost == 2 %}#10b981  
+                                                 {% elif pick.champion.cost == 3 %}#3b82f6
+                                                 {% elif pick.champion.cost == 4 %}#8b5cf6
+                                                 {% else %}#f59e0b{% endif %};"
+                                                 onerror="this.src='https://via.placeholder.com/24x24/4b5563/fff?text={{ pick.champion.name[0] }}'">
+                                            
+                                            <!-- Star Level Indicators -->
+                                            {% if pick.star_level >= 2 %}
+                                            <div class="star-indicators position-absolute d-flex" style="bottom: -3px; left: 50%; transform: translateX(-50%); gap: 1px;">
+                                                {% for i in range(pick.star_level) %}
+                                                <div style="width: 4px; height: 4px; background: #fbbf24; border-radius: 50%;"></div>
+                                                {% endfor %}
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    
+                                    <!-- Expand Chevron -->
+                                    <div class="expand-toggle text-gray-400">
+                                        <i class="fas fa-chevron-down transition-transform duration-200" id="chevron-{{ match.id }}" style="font-size: 16px;"></i>
+                                    </div>
+                                </div>
+                                
+                                <!-- Expandable Content -->
+                                <div class="match-details overflow-hidden" id="details-{{ match.id }}" style="max-height: 0; transition: max-height 0.3s ease-out;">
+                                    <div class="p-4" style="background: #1f2937; border-top: 1px solid #374151;">
+                                        <div class="team-composition">
+                                            <h6 class="text-gray-300 mb-3 fw-medium">Team Composition</h6>
+                                            <div class="d-flex flex-wrap" style="gap: 8px;">
+                                                {% for pick in match.champion_picks %}
+                                                <div class="champion-detailed position-relative group">
+                                                    <div class="champion-container position-relative">
+                                                        <img src="https://ddragon.leagueoflegends.com/cdn/14.24.1/img/champion/{{ pick.champion.name.replace(' ', '').replace("'", '').replace('.', '') }}.png" 
+                                                             alt="{{ pick.champion.name }}" 
+                                                             class="rounded transition-transform duration-200"
+                                                             style="width: 48px; height: 48px; border: 2px solid 
+                                                             {% if pick.champion.cost == 1 %}#6b7280
+                                                             {% elif pick.champion.cost == 2 %}#10b981  
+                                                             {% elif pick.champion.cost == 3 %}#3b82f6
+                                                             {% elif pick.champion.cost == 4 %}#8b5cf6
+                                                             {% else %}#f59e0b{% endif %};"
+                                                             onerror="this.src='https://via.placeholder.com/48x48/4b5563/fff?text={{ pick.champion.name[0] }}'"
+                                                             data-bs-toggle="tooltip" 
+                                                             title="{{ pick.champion.name }} ({{ pick.champion.cost }} cost)">
+                                                        
+                                                        <!-- Star Level -->
+                                                        <div class="stars position-absolute d-flex" style="bottom: -3px; left: 50%; transform: translateX(-50%); gap: 1px;">
+                                                            {% for i in range(pick.star_level) %}
+                                                            <div style="width: 6px; height: 6px; background: #fbbf24; border-radius: 50%; box-shadow: 0 0 4px rgba(251, 191, 36, 0.8);"></div>
+                                                            {% endfor %}
+                                                        </div>
+                                                        
+                                                        <!-- Cost Badge -->
+                                                        <div class="cost-badge position-absolute rounded-circle d-flex align-items-center justify-content-center fw-bold" 
+                                                             style="top: -3px; left: -3px; width: 14px; height: 14px; font-size: 8px; color: white;
+                                                             background: {% if pick.champion.cost == 1 %}#6b7280
+                                                             {% elif pick.champion.cost == 2 %}#10b981  
+                                                             {% elif pick.champion.cost == 3 %}#3b82f6
+                                                             {% elif pick.champion.cost == 4 %}#8b5cf6
+                                                             {% else %}#f59e0b{% endif %};">
+                                                            {{ pick.champion.cost }}
+                                                        </div>
+                                                        
+                                                        <!-- Items Row -->
+                                                        <div class="items-row position-absolute d-flex justify-content-center" style="bottom: 8px; left: 0; right: 0; gap: 1px;">
+                                                            <div class="item-slot" style="width: 10px; height: 10px; background: #4b5563; border-radius: 2px; border: 1px solid #6b7280;"></div>
+                                                            <div class="item-slot" style="width: 10px; height: 10px; background: #4b5563; border-radius: 2px; border: 1px solid #6b7280;"></div>
+                                                            <div class="item-slot" style="width: 10px; height: 10px; background: #4b5563; border-radius: 2px; border: 1px solid #6b7280;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center text-gray-400 py-5">
+                            <i class="fas fa-gamepad fa-3x mb-3"></i>
+                            <h5>No Recent Games</h5>
+                            <p>No matches found for this player.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+    .placement-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 8px;
+        max-width: 250px;
+    }
+    
+    .placement-square {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    
+    .placement-1 { background-color: #ffd700; color: #000; }
+    .placement-2 { background-color: #c0c0c0; color: #000; }
+    .placement-3 { background-color: #cd7f32; color: #fff; }
+    .placement-4 { background-color: #28a745; color: #fff; }
+    .placement-5 { background-color: #17a2b8; color: #fff; }
+    .placement-6 { background-color: #ffc107; color: #000; }
+    .placement-7 { background-color: #dc3545; color: #fff; }
+    .placement-8 { background-color: #6c757d; color: #fff; }
+    
+    /* MetaTFT-style Recent Games component styles */
+    .cursor-pointer { cursor: pointer; }
+    
+    .match-header:hover {
+        background-color: rgba(255, 255, 255, 0.03) !important;
+        transition: background-color 0.2s ease;
+    }
+    
+    .bg-darker {
+        background-color: rgba(0, 0, 0, 0.2) !important;
+    }
+    
+    .placement-badge {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease;
+    }
+    
+    .champion-mini img, .champion-detailed img {
+        transition: transform 0.2s ease;
+    }
+    
+    .champion-mini:hover img {
+        transform: scale(1.1);
+    }
+    
+    .champion-detailed:hover img {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    
+    .star-mini, .stars-detailed {
+        text-shadow: 0 0 3px rgba(255, 215, 0, 0.8);
+    }
+    
+    .item-slot {
+        background: linear-gradient(45deg, #4a4a4a, #666) !important;
+        border: 1px solid #888;
+    }
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+{% if not limited_view %}
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+<script>
+// Initialize charts when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // LP History Chart
+    const lpData = {{ lp_history | tojson | safe }};
+    if (lpData && lpData.length > 0) {
+        initLPChart(lpData);
+    }
+
+    // Placement Distribution Chart
+    const placementData = {{ placement_distribution | tojson | safe }};
+    if (placementData) {
+        initPlacementChart(placementData);
+    }
+    
+    // Initialize tooltips for champion details
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+
+// Toggle match details expansion - MetaTFT style
+function toggleMatch(matchId) {
+    const details = document.getElementById('details-' + matchId);
+    const chevron = document.getElementById('chevron-' + matchId);
+    const header = document.querySelector(`[onclick="toggleMatch('${matchId}')"]`);
+    
+    if (details.style.maxHeight === '0px' || details.style.maxHeight === '') {
+        // Expand
+        chevron.className = 'fas fa-chevron-up transition-transform duration-200';
+        header.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+        
+        // Calculate and set max height for smooth animation
+        details.style.maxHeight = details.scrollHeight + 'px';
+    } else {
+        // Collapse
+        chevron.className = 'fas fa-chevron-down transition-transform duration-200';
+        header.style.backgroundColor = '';
+        details.style.maxHeight = '0px';
+    }
+}
+</script>
+{% endif %}
+{% endblock %}
