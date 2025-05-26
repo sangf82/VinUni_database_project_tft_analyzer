@@ -12,7 +12,9 @@ const chartColors = {
     dark: '#343a40',
     gold: '#ffd700',
     silver: '#c0c0c0',
-    bronze: '#cd7f32'
+    bronze: '#cd7f32',
+    top_4: '#616669',
+    other_top: '#4a4d4f'
 };
 
 // Global chart defaults
@@ -130,11 +132,11 @@ function initPlacementChart(placementData) {
         chartColors.gold,      // 1st place - Gold
         chartColors.silver,    // 2nd place - Silver
         chartColors.bronze,    // 3rd place - Bronze
-        chartColors.success,   // 4th place - Green
-        chartColors.info,      // 5th place - Light blue
-        chartColors.warning,   // 6th place - Yellow
-        chartColors.danger,    // 7th place - Red
-        chartColors.dark       // 8th place - Dark
+        chartColors.top_4,   // 4th place - Green
+        chartColors.other_top,      // 5th place - Light blue
+        chartColors.other_top,   // 6th place - Yellow
+        chartColors.other_top,    // 7th place - Red
+        chartColors.other_top       // 8th place - Dark
     ];
 
     const borderColors = backgroundColors.map(color => color);

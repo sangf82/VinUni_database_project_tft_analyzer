@@ -6,9 +6,11 @@
     --accent-green: #6c757d;
     
     /* Complementary Colors */
-    --gold: #ffd700;
-    --silver: #c0c0c0;
-    --bronze: #cd7f32;
+    --gold: #c7b576;
+    --silver: #a9a9a9;
+    --bronze: #796547;
+    --top_4: #616669;
+    --other_top: #4a4d4f;
     
     /* Dark Theme */
     --bg-primary: #212529;
