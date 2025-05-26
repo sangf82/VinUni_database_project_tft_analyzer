@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-vintage-cream: #F5E6D3;
+  --color-vintage-sand: #E2C799;
+  --color-vintage-coffee: #A17C6B;
+  --color-vintage-mocha: #7C5D54;
+  --color-vintage-bronze: #8B6F5C;
+  --color-vintage-leather: #5C4B3F;
+  --color-vintage-wood: #3F332C;
+  --color-vintage-bark: #2A211C;
+  --color-vintage-shadow: #1A1412;
+  --color-vintage-ink: #0D0A09;
+}
+
+body {
+  background-color: var(--color-vintage-bark);
+  color: var(--color-vintage-cream);
+}
