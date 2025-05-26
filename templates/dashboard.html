@@ -3,34 +3,7 @@
 {% block title %}Dashboard - TFT Analyzer{% endblock %}
 
 {% block extra_head %}
-<style>
-    .placement-grid {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 8px;
-        max-width: 250px;
-    }
-    
-    .placement-square {
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 6px;
-        font-weight: bold;
-        font-size: 14px;
-    }
-    
-    .placement-1 { background-color: #ffd700; color: #000; }
-    .placement-2 { background-color: #c0c0c0; color: #000; }
-    .placement-3 { background-color: #cd7f32; color: #fff; }
-    .placement-4 { background-color: #28a745; color: #fff; }
-    .placement-5 { background-color: #17a2b8; color: #fff; }
-    .placement-6 { background-color: #ffc107; color: #000; }
-    .placement-7 { background-color: #dc3545; color: #fff; }
-    .placement-8 { background-color: #6c757d; color: #fff; }
-</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -329,22 +302,12 @@
 {% endblock %}
 
 {% block extra_scripts %}
+<script>
+    // Pass data to global variables for the dashboard initialization script
+    window.lpHistoryData = {{ lp_history | tojson | safe }};
+    window.placementDistributionData = {{ placement_distribution | tojson | safe }};
+</script>
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
-<script>
-// Initialize charts when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    // LP History Chart
-    const lpData = {{ lp_history | tojson | safe }};
-    if (lpData && lpData.length > 0) {
-        initLPChart(lpData);
-    }
-
-    // Placement Distribution Chart
-    const placementData = {{ placement_distribution | tojson | safe }};
-    if (placementData) {
-        initPlacementChart(placementData);
-    }
-});
-</script>
+<script src="{{ url_for('static', filename='js/dashboard-init.js') }}"></script>
 {% endblock %}

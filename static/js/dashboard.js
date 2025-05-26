@@ -15,6 +15,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Setup placement grid hover effects
     setupPlacementGrid();
+
+    // LP History Chart
+    const lpData = window.lpHistoryData || [];
+    if (lpData && lpData.length > 0) {
+        initLPChart(lpData);
+    }
+
+    // Placement Distribution Chart
+    const placementData = window.placementDistributionData || {};
+    if (placementData) {
+        initPlacementChart(placementData);
+    }
 });
 
 function animateStatCards() {
