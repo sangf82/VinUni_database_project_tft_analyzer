@@ -1,0 +1,7 @@
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=sanglt
+DB_PASSWORD=123456
+DB_NAME=tft_app
+
+RIOT_API_KEY=RGAPI-afae545a-d1a4-4db4-a55d-cd8b05cb4824
