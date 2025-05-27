@@ -24,35 +24,41 @@ app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 load_dotenv()
 
 DATA_CONFIG = {
-    "db_host": os.environ.get("DB_HOST","127.0.0.1"),
-    "db_port": os.environ.get("DB_PORT","3306"),
-    "db_user": os.environ.get("DB_USER","root"),
-    "db_password": os.environ.get("DB_PASSWORD","123456"),
-    "db_name": os.environ.get("DB_NAME","tft_app"),
+    "db_host": os.getenv("CD_HOST"),
+    "db_port": os.getenv("CD_PORT"),
+    "db_user": os.getenv("CD_USER"),
+    "db_password": os.getenv("CD_PASSWORD"),
+    "db_name": os.getenv("CD_NAME"),
 }
 
 CONFIG = {
     "db_host": "127.0.0.1",
     "db_port": "3306",
     "db_user": "root",
-    "db_password": "123456",
+    "db_password": "080204",
     "db_name": "tft_app",
 }
 
-# Create MySQL database URL from config
-if all(CONFIG.values()):
-    mysql_url = f"mysql+pymysql://{DATA_CONFIG['db_user']}:{DATA_CONFIG['db_password']}@{DATA_CONFIG['db_host']}:{DATA_CONFIG['db_port']}/{DATA_CONFIG['db_name']}"
-else:
-    mysql_url = None
+def get_database_url(config_dict):
+    if all(config_dict.values()):
+        return f"mysql+pymysql://{config_dict['db_user']}:{config_dict['db_password']}@{config_dict['db_host']}:{config_dict['db_port']}/{config_dict['db_name']}"
+    return None
 
-app.config["SQLALCHEMY_DATABASE_URI"] = mysql_url
-app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
-    "pool_recycle": 300,
-    "pool_pre_ping": True,
-    "pool_size": 10,
-    "max_overflow": 5,
-    "pool_timeout": 30
-}
+def configure_database(app, config):
+    
+    mysql_url = get_database_url(config)
+    
+    if not mysql_url:
+        raise ValueError("Invalid database configuration provided")
+    
+    app.config["SQLALCHEMY_DATABASE_URI"] = mysql_url
+    app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+        "pool_recycle": 300,
+        "pool_pre_ping": True,
+    }
+
+
+configure_database(app, CONFIG)
 
 # Initialize the app with the extension
 db.init_app(app)
@@ -62,11 +68,12 @@ with app.app_context():
     import models
     import routes
     
-    # Create all tables
-    db.create_all()
-    
-    # Database initialization complete
-    logging.info("Database tables created successfully.")
+    # Create tables only if they don't exist
+    try:
+        db.create_all()
+        logging.info("Database tables verified/created successfully.")
+    except Exception as e:
+        logging.warning(f"Database table creation skipped or failed: {e}")
     
 @app.route('/static/<path:filename>')
 def static_files(filename):
