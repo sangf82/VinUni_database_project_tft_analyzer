@@ -1,7 +1,11 @@
 streamlit
 mysql-connector-python
 bcrypt
-
-
-mysql
-
+mysqlclient
+apache-airflow
+apache-airflow-providers-mysql
+python-dotenv
+requests
+tabulate
+pillow
+pandas
