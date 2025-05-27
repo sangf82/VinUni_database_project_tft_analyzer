@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Register - TFT Analyzer{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card bg-dark border-success shadow-lg mt-5">
+                <div class="card-header bg-success text-white text-center">
+                    <h4 class="mb-0">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Join TFT Analyzer
+                    </h4>
+                </div>
+                
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ url_for('register') }}">
+                        <div class="mb-3">
+                            <label for="username" class="form-label text-white">
+                                <i class="fas fa-user me-1"></i>
+                                Username
+                            </label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="username" 
+                                   name="username" 
+                                   required
+                                   autocomplete="username"
+                                   placeholder="Choose a unique username">
+                            <div class="form-text text-muted">
+                                This will be your login username for TFT Analyzer.
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="riot_id" class="form-label text-white">
+                                <i class="fas fa-gamepad me-1"></i>
+                                Riot ID
+                            </label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="riot_id" 
+                                   name="riot_id" 
+                                   required
+                                   placeholder="YourName#1234"
+                                   pattern=".+#[A-Za-z0-9]{1,10}">
+                            <div class="form-text text-muted">
+                                Enter your Riot ID in the format: username#tag (e.g., Player#1234)
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label text-white">
+                                <i class="fas fa-lock me-1"></i>
+                                Password
+                            </label>
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="password" 
+                                   name="password" 
+                                   required
+                                   autocomplete="new-password"
+                                   minlength="6"
+                                   placeholder="Choose a secure password">
+                            <div class="form-text text-muted">
+                                Password must be at least 6 characters long.
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="confirm_password" class="form-label text-white">
+                                <i class="fas fa-lock me-1"></i>
+                                Confirm Password
+                            </label>
+                            <input type="password" 
+                                   class="form-control" 
+                                   id="confirm_password" 
+                                   name="confirm_password" 
+                                   required
+                                   autocomplete="new-password"
+                                   placeholder="Confirm your password">
+                        </div>
+                        
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-user-plus me-2"></i>
+                                Create Account
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <hr class="text-muted">
+                    
+                    <div class="text-center">
+                        <p class="text-muted mb-0">
+                            Already have an account?
+                            <a href="{{ url_for('login') }}" class="text-success text-decoration-none">
+                                Sign in here
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Privacy Notice -->
+            <div class="card bg-dark border-secondary mt-4">
+                <div class="card-body">
+                    <h6 class="card-title text-warning">
+                        <i class="fas fa-shield-alt me-1"></i>
+                        Privacy & Security
+                    </h6>
+                    <ul class="text-muted small mb-0">
+                        <li>Your password is securely hashed and never stored in plain text</li>
+                        <li>We only access publicly available match data from Riot Games</li>
+                        <li>Your personal information is never shared with third parties</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Password confirmation validation
+document.getElementById('confirm_password').addEventListener('input', function() {
+    const password = document.getElementById('password').value;
+    const confirmPassword = this.value;
+    
+    if (password !== confirmPassword) {
+        this.setCustomValidity('Passwords do not match');
+    } else {
+        this.setCustomValidity('');
+    }
+});
+</script>
+{% endblock %}

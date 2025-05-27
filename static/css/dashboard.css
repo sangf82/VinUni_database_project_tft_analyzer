@@ -1,0 +1,26 @@
+.placement-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    max-width: 250px;
+}
+
+.placement-square {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.placement-1 { background-color: #cbb46c; color: #fff; }
+.placement-2 { background-color: #a9a9a9; color: #fff; }
+.placement-3 { background-color: #796547; color: #fff; }
+.placement-4 { background-color: #616669; color: #fff; }
+.placement-5 { background-color: #4a4d4f; color: #fff; }
+.placement-6 { background-color: #4a4d4f; color: #fff; }
+.placement-7 { background-color: #4a4d4f; color: #fff; }
+.placement-8 { background-color: #4a4d4f; color: #fff; }

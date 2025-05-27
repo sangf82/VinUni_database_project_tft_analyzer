@@ -898,3 +898,179 @@ The system is now ready for:
 
 
 
+# TFT Analyzer - Teamfight Tactics Player Statistics App
+
+A comprehensive TFT (Teamfight Tactics) web application providing in-depth player analytics, match history tracking, and competitive insights for players and strategists.
+
+## Features
+
+- **Player Dashboard**: Comprehensive statistics including rank, LP, win rate, and average placement
+- **Match History**: MetaTFT-style expandable match rows with detailed team compositions
+- **Leaderboard**: Top 30 VN players with rankings and statistics
+- **Interactive Charts**: LP progression and placement distribution visualization
+- **Responsive Design**: Works perfectly on desktop and mobile devices
+- **Dark Theme**: Professional TFT-inspired design
+
+## Tech Stack
+
+- **Backend**: Flask (Python)
+- **Database**: PostgreSQL
+- **Frontend**: Bootstrap 5, Chart.js, Font Awesome
+- **Authentication**: Flask sessions with password hashing
+- **Data Visualization**: Chart.js for interactive graphs
+
+## Installation & Setup
+
+### Prerequisites
+
+- Python 3.8 or higher
+- PostgreSQL database
+- pip (Python package installer)
+
+### 1. Clone or Download the Project
+
+Download all project files to your local directory.
+
+### 2. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Database Setup
+
+#### Option A: Using PostgreSQL locally
+1. Install PostgreSQL on your system
+2. Create a new database:
+```sql
+CREATE DATABASE tft_analyzer;
+```
+3. Set environment variable:
+```bash
+export DATABASE_URL="postgresql://username:password@localhost:5432/tft_analyzer"
+```
+
+#### Option B: Using Replit (Recommended)
+The app is configured to work seamlessly on Replit with their PostgreSQL service.
+
+### 4. Environment Variables
+
+Set the following environment variables:
+
+```bash
+export DATABASE_URL="your_postgresql_connection_string"
+export SESSION_SECRET="your_secret_key_for_sessions"
+```
+
+### 5. Initialize the Database
+
+The app will automatically create tables and populate sample data on first run.
+
+### 6. Run the Application
+
+```bash
+# Development mode
+python main.py
+
+# Production mode with Gunicorn
+gunicorn --bind 0.0.0.0:5000 --reuse-port --reload main:app
+```
+
+The application will be available at `http://localhost:5000`
+
+## Sample Users
+
+The app comes with 30 pre-registered users representing top VN TFT players:
+
+| Username | Password | Riot ID |
+|----------|----------|---------|
+| tln_yby1 | password123 | TLN YBY1#2024 |
+| saigon_buffalo_shenlong | password123 | Saigon Buffalo Shenlong#VN01 |
+| team_flash_noway | password123 | Team Flash NoWay#FL01 |
+| ... | ... | ... |
+
+All users use the password: `password123`
+
+## Usage
+
+1. **Homepage**: View the leaderboard and top players
+2. **Login**: Use any of the sample usernames with password `password123`
+3. **Dashboard**: View your personal statistics and match history
+4. **Player Profiles**: Click on any player to view their detailed stats
+5. **Match Details**: Click on match rows to expand team compositions
+
+## Project Structure
+
+```
+tft-analyzer/
+├── app.py              # Flask app configuration
+├── main.py             # Application entry point
+├── models.py           # Database models
+├── routes.py           # Route handlers
+├── data_manager.py     # Data processing utilities
+├── sample_data.py      # Sample data initialization
+├── utils.py            # Helper functions
+├── static/             # CSS, JS, and assets
+│   ├── css/
+│   ├── js/
+│   └── img/
+├── templates/          # HTML templates
+└── requirements.txt    # Python dependencies
+```
+
+## Key Features Explained
+
+### Recent Games Component
+- **MetaTFT-style interface** with expandable match rows
+- **Champion previews** with cost-colored borders and star indicators
+- **LP tracking** with visual up/down indicators
+- **Team compositions** showing full champion builds
+
+### Player Statistics
+- **Rank progression** with tier and LP tracking
+- **Performance metrics** including win rate and average placement
+- **Interactive charts** for LP history and placement distribution
+- **Match analytics** with detailed breakdowns
+
+### Leaderboard System
+- **Real-time rankings** of top players
+- **Comprehensive stats** including games played and win rates
+- **Player profiles** accessible with detailed match histories
+
+## Customization
+
+The app uses authentic League of Legends champion data and can be easily extended to:
+- Connect to Riot Games API for live data
+- Add more detailed item tracking
+- Implement team composition analytics
+- Add trait synergy calculations
+
+## Troubleshooting
+
+### Database Connection Issues
+- Ensure PostgreSQL is running
+- Check DATABASE_URL environment variable
+- Verify database credentials
+
+### Missing Champion Images
+- Champion images load from League of Legends CDN
+- Fallback placeholders are provided for missing images
+
+### Chart Display Issues
+- Ensure JavaScript is enabled
+- Check browser console for errors
+- Verify Chart.js is loading properly
+
+## Support
+
+For issues or questions about the TFT Analyzer:
+1. Check the troubleshooting section
+2. Ensure all dependencies are installed
+3. Verify database connection
+4. Check browser console for JavaScript errors
+
+---
+
+**Built with**: Flask, PostgreSQL, Bootstrap, Chart.js
+**Inspired by**: MetaTFT interface design
+**Data Source**: League of Legends Data Dragon (Champion images)

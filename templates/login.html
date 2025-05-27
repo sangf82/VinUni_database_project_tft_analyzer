@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Login - TFT Analyzer{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card bg-dark border-success shadow-lg mt-5">
+                <div class="card-header bg-success text-white text-center">
+                    <h4 class="mb-0">
+                        <i class="fas fa-sign-in-alt me-2"></i>
+                        Sign In to TFT Analyzer
+                    </h4>
+                </div>
+                
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ url_for('login') }}">
+                        <div class="mb-3">
+                            <label for="username" class="form-label text-white">
+                                <i class="fas fa-user me-1"></i>
+                                Username
+                            </label>
+                            <input type="text" 
+                                   class="form-control form-control-lg" 
+                                   id="username" 
+                                   name="username" 
+                                   required
+                                   autocomplete="username"
+                                   placeholder="Enter your username">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="password" class="form-label text-white">
+                                <i class="fas fa-lock me-1"></i>
+                                Password
+                            </label>
+                            <input type="password" 
+                                   class="form-control form-control-lg" 
+                                   id="password" 
+                                   name="password" 
+                                   required
+                                   autocomplete="current-password"
+                                   placeholder="Enter your password">
+                        </div>
+                        
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="fas fa-sign-in-alt me-2"></i>
+                                Sign In
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <hr class="text-muted">
+                    
+                    <div class="text-center">
+                        <p class="text-muted mb-0">
+                            Don't have an account?
+                            <a href="{{ url_for('register') }}" class="text-success text-decoration-none">
+                                Create one here
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Info Card -->
+            <div class="card bg-dark border-secondary mt-4">
+                <div class="card-body">
+                    <h6 class="card-title text-success">
+                        <i class="fas fa-info-circle me-1"></i>
+                        About TFT Analyzer
+                    </h6>
+                    <p class="card-text text-muted small mb-0">
+                        Track your Teamfight Tactics performance, analyze your LP progression, 
+                        and discover insights about your most played champions.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
