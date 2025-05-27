@@ -65,8 +65,8 @@ db.init_app(app)
 
 with app.app_context():
     # Import models and routes
-    import models
-    import routes
+    import fe_models
+    import fe_routes
     
     # Create tables only if they don't exist
     try:

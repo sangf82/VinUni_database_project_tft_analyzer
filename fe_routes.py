@@ -1,8 +1,8 @@
 from flask import render_template, request, redirect, url_for, flash, session, jsonify
-from app import app, db
-from models import User, PlayerStats, MatchHistory, Champion, ChampionPick, LPHistory, LeaderboardEntry
-from utils import login_required, get_placement_color, calculate_average_placement
-from data_manager import get_user_stats, get_recent_matches, get_top_champions, get_lp_history
+from fe_app import app, db
+from fe_models import User, PlayerStats, MatchHistory, Champion, ChampionPick, LPHistory, LeaderboardEntry
+from fe_utils import login_required, get_placement_color, calculate_average_placement
+from fe_data_manager import get_user_stats, get_recent_matches, get_top_champions, get_lp_history
 import logging
 
 @app.route('/')

@@ -1,5 +1,5 @@
-from models import User, PlayerStats, MatchHistory, Champion, ChampionPick, LPHistory
-from app import db
+from fe_models import User, PlayerStats, MatchHistory, Champion, ChampionPick, LPHistory
+from fe_app import db
 from sqlalchemy import func
 import logging
 
