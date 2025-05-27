@@ -10,7 +10,7 @@ import mysql.connector
 from dotenv import load_dotenv
 
 # Load environment variables
-load_dotenv()
+load_dotenv("./.env")
 
 def test_database_connection():
     """Test database connection and basic functionality"""

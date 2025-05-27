@@ -1,0 +1,42 @@
+* [33m4b9e0bc[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m untrack .env
+[31m|[m * [33mf072900[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m update file name
+[31m|[m * [33m6727a77[m Merge pull request #3 from sangf82/sang.lt update front-end part
+[31m|[m[31m/[m[34m|[m 
+[31m|[m *   [33m6b5120f[m[33m ([m[1;31morigin/sang.lt[m[33m)[m Merge branch 'main' into sang.lt
+[31m|[m [35m|[m[31m\[m  
+[31m|[m [35m|[m[31m/[m  
+[31m|[m[31m/[m[35m|[m   
+* [35m|[m [33m0d18f7d[m feat: Complete TFT Analyzer system with game assets and comprehensive documentation
+* [35m|[m [33mfcddfc6[m remove api key
+* [35m|[m   [33mdc13088[m Merge branch 'long' into main
+[1;31m|[m[1;32m\[m [35m\[m  
+[1;31m|[m * [35m|[m [33ma21eb7f[m edit extract.py
+[1;31m|[m * [35m|[m [33md4b065b[m add load.py
+[1;31m|[m * [35m|[m [33m97b257e[m add extract.py process.py
+[1;31m|[m * [35m|[m [33m48cf247[m update .gitignore
+* [1;32m|[m [35m|[m [33mf8e7e37[m remove
+* [1;32m|[m [35m|[m [33mb2495d0[m delete .venv
+* [1;32m|[m [35m|[m [33m6a69952[m delete venv
+[1;32m|[m [1;32m|[m * [33m51cd5e9[m update db
+[1;32m|[m [1;32m|[m * [33m6c1678d[m update mysql db
+[1;32m|[m [1;32m|[m * [33m52e7089[m update color style
+[1;32m|[m [1;32m|[m * [33m75fc294[m update color
+[1;32m|[m [1;32m|[m * [33m539565f[m update v1
+[1;32m|[m [1;32m|[m *   [33md19f4be[m Merge branch 'sang.lt' of https://github.com/sangf82/VinUni_database_project_tft_analyzer into sang.lt
+[1;32m|[m [1;32m|[m [1;33m|[m[1;34m\[m  
+[1;32m|[m [1;32m|[m [1;33m|[m * [33m72e1aac[m new
+[1;32m|[m [1;32m|[m [1;33m|[m * [33mefb6b3e[m added
+[1;32m|[m [1;32m|[m [1;33m|[m * [33m08fb9bf[m update second fe work
+[1;32m|[m [1;32m|[m * [1;34m|[m [33md951e73[m lap update
+[1;32m|[m [1;32m|[m [1;34m|[m[1;34m/[m  
+[1;32m|[m [1;32m|[m * [33mb218ff5[m update fe code
+[1;32m|[m [1;32m|[m * [33m4d372d9[m update login_logout.py
+[1;32m|[m [1;32m|[m * [33me5cb230[m delete .venv
+[1;32m|[m [1;32m|[m[1;32m/[m  
+[1;32m|[m[1;32m/[m[1;32m|[m   
+* [1;32m|[m [33m7164410[m first signin/signup web
+[1;32m|[m[1;32m/[m  
+* [33meb8cf67[m Update README.md ver 2
+* [33m9b3985f[m add image for readme file
+* [33maf5a26c[m Update README.md
+* [33m857f37d[m Initial commit
