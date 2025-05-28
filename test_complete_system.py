@@ -120,9 +120,9 @@ def test_etl_components():
     print("\n⚙️ Testing ETL components...")
     try:
         sys.path.append('.')
-        from be_steps.extract import extract_leaderboard_data
-        from be_steps.process import process_leaderboard_data
-        from be_steps.load import load_leaderboard_to_sql
+        from Steps.extract import extract_leaderboard_data
+        from Steps.process import process_leaderboard_data
+        from Steps.load import load_leaderboard_to_sql
         
         print("✅ ETL modules imported successfully")
         print("✅ Extract function: extract_leaderboard_data() available")
@@ -130,7 +130,7 @@ def test_etl_components():
         print("✅ Load function: load_leaderboard_to_sql() available")
         
         # Test companion extraction
-        from be_steps.companion_extract import extract_player_companions, extract_match_companions
+        from Steps.companion_extract import extract_player_companions, extract_match_companions
         print("✅ Companion extraction functions available")
         print("✅ Default region set to Vietnam server (vn2)")
         
