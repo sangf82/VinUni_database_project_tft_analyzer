@@ -1,157 +1,133 @@
-# 🎮 TFT Analyzer - Complete Game Analytics System
+# TFT Analyzer - Teamfight Tactics Analytics System
 
-**Advanced data pipeline for Teamfight Tactics (TFT) featuring player analytics, leaderboard tracking, game assets, and pet usage analytics for Vietnam server (VN2).**
+**Data pipeline and web application for Teamfight Tactics (TFT) player analytics, leaderboard tracking, and game asset management.**
 
-[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
-[![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange.svg)](https://mysql.com)
-[![Apache Airflow](https://img.shields.io/badge/Apache%20Airflow-2.0+-red.svg)](https://airflow.apache.org)
-[![TFT Set 13](https://img.shields.io/badge/TFT-Set%2013-purple.svg)](https://teamfighttactics.leagueoflegends.com)
-[![Flask](https://img.shields.io/badge/Flask-2.0+-green.svg)](https://flask.palletsprojects.com)
-[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
-[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=flat&logo=bootstrap&logoColor=white)](https://getbootstrap.com)
-[![Chart.js](https://img.shields.io/badge/Chart.js-FF6384?style=flat&logo=chart.js&logoColor=white)](https://www.chartjs.org)
+## Project Overview
 
-## ✨ Features
+TFT Analyzer is a comprehensive system for collecting, processing, and analyzing data from the Teamfight Tactics game. The system includes:
 
-### 🏆 **Leaderboard Analytics**
-- Real-time Challenger, Grandmaster, and Master tier tracking
-- Historical LP trends and rank progression
-- Player performance metrics and win rates
+- ETL pipelines powered by Apache Airflow
+- Database schema optimized for TFT data
+- Flask web application for visualization and analytics
+- Integration with Riot Games API
 
-### 🐾 **Game Assets & Pet Analytics** 
-- 1,800+ Little Legends/Tactician images and data
-- 70+ Traits with icons and descriptions  
-- 400+ Items and augments catalog
-- User pet usage tracking and popularity analytics
+## System Architecture
 
-### 📊 **Advanced Data Pipeline**
-- Automated ETL with Apache Airflow
-- Real-time data processing and validation
-- Comprehensive database views for analytics
-- RESTful API endpoints for frontend integration
+The project consists of three main components:
 
-### 🌐 **Vietnam Server Focus**
-- Optimized for VN2 server data
-- Vietnamese player base analytics
-- Regional leaderboard insights
+1. **Data Pipeline**: ETL processes using Python and Apache Airflow to extract data from Riot API, process it, and load it into MySQL database
+2. **Database**: MySQL database with tables for players, matches, game assets, and analytics data
+3. **Web Application**: Flask-based frontend for visualization and user interaction
 
-## 🚀 Quick Start Guide
+## Features
+
+### Data Collection
+- Player profile data extraction
+- Match history tracking
+- Leaderboard data collection
+- Game assets (champions, items, traits, tacticians)
+
+### Analytics
+- Player performance metrics and statistics
+- LP (League Points) history tracking
+- Match placement analysis
+- Champion usage and popularity stats
+
+### Web Interface
+- User registration and authentication
+- Player dashboards with performance metrics
+- Leaderboard visualization
+- Match history and detailed match analysis
+
+## Setup Requirements
 
 ### Prerequisites
-- **Python 3.8+** with pip
-- **MySQL 8.0+** server running
-- **Git** for cloning repository
-- **Riot Games API Key** (free developer account)
+- Python 3.8+
+- MySQL 8.0+
+- Apache Airflow 2.0+
+- Riot Games API Key
 
-### Step-by-Step Installation
+### Environment Configuration
+Configuration requires setting up the following environment variables in a `.env` file:
 
-#### 1️⃣ Clone Repository
-```bash
-git clone https://github.com/sangf82/VinUni_database_project_tft_analyzer.git
-cd VinUni_database_project_tft_analyzer
 ```
-
-#### 2️⃣ Environment Setup
-```bash
-# Copy environment template
-cp .env.example .env
-
-# Edit .env with your credentials
-nano .env  # or use any text editor
-```
-
-**Required .env Configuration:**
-```env
-# Get your API key from: https://developer.riotgames.com/
-RIOT_API_KEY=RGAPI-your-api-key-here
-
-# Database settings
-DB_HOST=localhost          # or your cloud database host
+DB_HOST=localhost
 DB_PORT=3306
-DB_USER=root              # your database username
-DB_PASSWORD=your_password # your database password
+DB_USER=your_username
+DB_PASSWORD=your_password
 DB_NAME=tft_analyzer
+
+RIOT_API_KEY=RGAPI-your-api-key-here
 ```
 
-#### 3️⃣ Install Dependencies & Initialize Database
-```bash
-# Install Python packages
-pip install -r requirements.txt
+## Installation Instructions
 
-# Initialize database schema
-mysql -u root -p tft_analyzer < database_schema.sql
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/sangf82/VinUni_database_project_tft_analyzer.git
+   cd VinUni_database_project_tft_analyzer
+   ```
+
+2. Create and configure environment:
+   ```bash
+   cp .env.example .env
+   # Edit .env with your database credentials and Riot API key
+   ```
+
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Initialize database:
+   ```bash
+   mysql -u your_username -p < database_schema.sql
+   ```
+
+5. Set up Airflow:
+   ```bash
+   export AIRFLOW_HOME=$(pwd)/airflow
+   airflow db init
+   airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com
+   ```
+
+6. Start Airflow services:
+   ```bash
+   airflow webserver --port 8080  # In terminal 1
+   airflow scheduler              # In terminal 2
+   ```
+
+7. Run Flask web application:
+   ```bash
+   python fe_main.py
+   ```
+
+## Data Pipeline
+
+The ETL pipeline consists of three main DAGs:
+- `tft_etl_pipeline`: Individual player data extraction
+- `tft_leaderboard_etl_pipeline`: Leaderboard data collection
+- `tft_static_data_etl_pipeline`: Game assets collection (champions, items, traits, etc.)
+
+## Web Application
+
+The Flask application provides:
+- User registration and authentication
+- Player profile pages with performance metrics
+- Leaderboard tracking
+- Match history and analysis
+- Champion usage statistics
+
+## Project Structure
+
+- `Steps/`: ETL pipeline modules
+- `airflow/dags/`: Airflow DAG definitions
+- `templates/`: HTML templates for the web application
+- `static/`: CSS, JavaScript, and images for the frontend
+- `fe_*.py`: Flask application files
 ```
 
-#### 4️⃣ Run System Tests
-```bash
-# Test complete system
-python test_complete_system.py
-
-# Test game assets
-python test_simplified_assets.py
-```
-
-#### 5️⃣ Start Airflow Pipeline
-```bash
-# Initialize Airflow
-export AIRFLOW_HOME=$(pwd)/airflow
-airflow db init
-
-# Create admin user
-airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com
-
-# Start services (in separate terminals)
-airflow webserver --port 8080  # Terminal 1
-airflow scheduler               # Terminal 2
-```
-
-#### 6️⃣ Access Airflow UI
-- Open browser to: `http://localhost:8080`
-- Login: `admin` / `admin`
-- Enable and trigger DAGs:
-  - `tft_leaderboard_etl_pipeline`
-  - `tft_etl_pipeline`
-  - `tft_static_data_etl_pipeline`
-
-## 📋 Complete Setup Guide
-
-For detailed setup instructions including cloud database configuration, see [**SETUP_GUIDE.md**](SETUP_GUIDE.md)
-
-# Install additional packages for database connectivity
-pip install mysql-connector-python python-dotenv
-```
-
-#### 4️⃣ Database Setup
-```bash
-# Option A: Create database and load schema
-mysql -u root -p -e "CREATE DATABASE tft_analyzer;"
-mysql -u root -p tft_analyzer < database_schema.sql
-
-# Option B: Load schema with database creation
-mysql -u root -p < database_schema.sql
-```
-
-#### 5️⃣ Airflow Initialization
-```bash
-# Set Airflow home directory
-export AIRFLOW_HOME=$(pwd)/airflow
-
-# Initialize Airflow database
-airflow db init
-
-# Create admin user
-airflow users create \
-    --username admin \
-    --password admin \
-    --firstname Admin \
-    --lastname User \
-    --role Admin \
-    --email admin@example.com
-```
-
-#### 6️⃣ Start Services
+#### Start Services
 ```bash
 # Terminal 1: Start Airflow webserver
 export AIRFLOW_HOME=$(pwd)/airflow
@@ -162,7 +138,7 @@ export AIRFLOW_HOME=$(pwd)/airflow
 airflow scheduler
 ```
 
-#### 7️⃣ Access & Configure
+#### Access & Configure
 ```bash
 # Open Airflow UI
 open http://localhost:8080
@@ -174,7 +150,7 @@ open http://localhost:8080
 # 3. Toggle ON: tft_combined_etl_pipeline
 ```
 
-#### 8️⃣ Test Pipeline
+#### Test Pipeline
 ```bash
 # Test database connection
 python -c "
@@ -205,7 +181,7 @@ print(f'✅ Leaderboard entries: {len(response.json().get(\"entries\", []))}')
 "
 ```
 
-### ⚡ Quick Test Run
+### Quick Test Run
 After setup, trigger a manual pipeline run:
 
 ```bash
@@ -220,7 +196,7 @@ SELECT * FROM v_current_leaderboard LIMIT 5;
 "
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 Edit `.env` with your settings:
 
@@ -240,7 +216,7 @@ API_REGION=vn2
 ACCOUNT_REGION=asia
 ```
 
-## 🗄️ Database Schema
+## Database Schema
 
 ### Core Tables
 
@@ -323,7 +299,7 @@ AND timestamp >= DATE_SUB(NOW(), INTERVAL 30 DAY);
 SELECT * FROM v_popular_little_legends ORDER BY usage_count DESC;
 ```
 
-## 🔄 Pipeline Components
+## Pipeline Components
 
 ### Airflow DAGs
 - **`etl_dag`**: Main player data extraction (Daily)
@@ -339,7 +315,7 @@ python Steps/load.py         # Load to database
 python Steps/companion_extract.py  # Extract companion data
 ```
 
-## 📊 Frontend Developer Integration Guide
+## Frontend Developer Integration Guide
 
 ### Database Connection (Node.js Example)
 ```javascript
@@ -373,7 +349,7 @@ app.get('/api/leaderboard', async (req, res) => {
 
 ### Essential Frontend Queries
 
-#### 🏆 Leaderboard API
+#### Leaderboard API
 ```sql
 -- Get top players with pagination
 SELECT position, username, tier, rank, lp, top4_rate, games_played
@@ -393,7 +369,7 @@ LIMIT 50 OFFSET 0;
 }
 ```
 
-#### 🔍 Player Search API
+#### Player Search API
 ```sql
 -- Search players by name (autocomplete)
 SELECT username, tag, tier, lp, position 
@@ -407,7 +383,7 @@ SELECT * FROM v_player_profiles
 WHERE username = ? AND tag = ?;
 ```
 
-#### 📈 Player Statistics API  
+#### Player Statistics API  
 ```sql
 -- Match history with results
 SELECT 
@@ -417,10 +393,10 @@ SELECT
     little_legend_id,
     match_timestamp,
     CASE 
-        WHEN placement = 1 THEN '🥇'
-        WHEN placement <= 4 THEN '✅' 
-        ELSE '❌' 
-    END as result_emoji
+        WHEN placement = 1 THEN 'FIRST'
+        WHEN placement <= 4 THEN 'WIN' 
+        ELSE 'LOSS' 
+    END as result_text
 FROM v_match_history 
 WHERE username = ? 
 ORDER BY match_timestamp DESC 
@@ -439,7 +415,7 @@ GROUP BY DATE(timestamp)
 ORDER BY date ASC;
 ```
 
-#### 🎮 Meta Analysis API
+#### Meta Analysis API
 ```sql
 -- Most popular Little Legends
 SELECT 
@@ -590,7 +566,7 @@ const Leaderboard = () => {
 }
 ```
 
-## 🛠️ Development
+## Development
 
 ### Project Structure
 ```
@@ -635,7 +611,7 @@ const Leaderboard = () => {
                             Data Validation         Frontend APIs
 ```
 
-## 📋 Monitoring & Troubleshooting
+## Monitoring & Troubleshooting
 
 ### Airflow UI Dashboard
 - **URL**: http://localhost:8080
@@ -680,7 +656,7 @@ ORDER BY update_dates DESC;
 
 ### Common Issues & Solutions
 
-#### 🚨 API Rate Limit Exceeded
+#### API Rate Limit Exceeded
 ```bash
 # Check logs for rate limit errors
 tail -f airflow/logs/dag_processor/latest
@@ -689,7 +665,7 @@ tail -f airflow/logs/dag_processor/latest
 # Current: 1.2s delay, increase to 2s if needed
 ```
 
-#### 🔧 Database Connection Failed  
+#### Database Connection Failed  
 ```bash
 # Test database connection
 mysql -u root -p -e "SELECT 1;"
@@ -701,7 +677,7 @@ cat .env | grep DB_
 brew services restart mysql  # macOS
 ```
 
-#### 📊 Empty Database Views
+#### Empty Database Views
 ```sql
 -- Check if data exists in base tables
 SELECT COUNT(*) FROM user;
@@ -712,7 +688,7 @@ SELECT COUNT(*) FROM leaderboard_entry;
 python Steps/extract.py
 ```
 
-#### ⚠️ Airflow Scheduler Not Running
+#### Airflow Scheduler Not Running
 ```bash
 # Check scheduler status
 ps aux | grep airflow
@@ -723,7 +699,7 @@ airflow scheduler --daemon  # Background mode
 airflow webserver --port 8080 --daemon
 ```
 
-## 🎯 Vietnam Server Configuration
+## Vietnam Server Configuration
 
 ### Regional Settings
 - **Region Code**: `vn2` (Vietnam Server)
@@ -777,7 +753,7 @@ def rate_limited_request(func, *args, **kwargs):
             time.sleep(2 ** attempt)
 ```
 
-## 🚀 Advanced Usage
+## Advanced Usage
 
 ### Manual Pipeline Execution
 ```bash
@@ -854,7 +830,7 @@ GROUP BY DATE(match_timestamp)
 ORDER BY match_date DESC;
 ```
 
-## 📞 Support
+## Support
 
 For frontend developers integrating with this system:
 
@@ -865,218 +841,39 @@ For frontend developers integrating with this system:
 
 ---
 
-## ✅ System Validation
+## System Validation
 
-**Status: FULLY OPERATIONAL** ✅
+**Status: FULLY OPERATIONAL**
 
 The TFT Analyzer system has been comprehensively tested and validated:
 
-### ✅ Test Results (5/5 Passed)
-- **Database Connection**: ✅ Connected to `tft_analyzer` database
-- **Database Structure**: ✅ All tables and views created successfully
+### Test Results (5/5 Passed)
+- **Database Connection**: Connected to `tft_analyzer` database
+- **Database Structure**: All tables and views created successfully
   - Tables: `user`, `lp_history`, `leaderboard_entry`, `tft_match_companion`
   - Views: `v_current_leaderboard`, `v_player_profiles`, `v_match_history`, `v_lp_trends`, `v_popular_little_legends`
-- **Leaderboard Data**: ✅ 11,350 entries loaded successfully
+- **Leaderboard Data**: 11,350 entries loaded successfully
   - Challenger: 451 players
   - Grandmaster: 899 players 
   - Master: 10,000 players
-- **ETL Components**: ✅ All extraction, processing, and loading functions operational
-- **Database Views**: ✅ All views functional and ready for frontend integration
+- **ETL Components**: All extraction, processing, and loading functions operational
+- **Database Views**: All views functional and ready for frontend integration
 
-### 🏆 Current Leaderboard (Top 5)
+### Current Leaderboard (Top 5)
 1. **Player_D-XSEkqV** (CHALLENGER) - 1,942 LP
 2. **Player_ONhhgo8I** (CHALLENGER) - 1,773 LP  
 3. **Player_1GhOsAAs** (CHALLENGER) - 1,768 LP
 4. **Player_cL_tKXMZ** (CHALLENGER) - 1,765 LP
 5. **Player_G9qn78RZ** (CHALLENGER) - 1,709 LP
 
-### 🎯 Ready for Production
+### Ready for Production
 The system is now ready for:
-- ✅ Automated daily leaderboard updates via Airflow
-- ✅ Frontend integration using provided database views
-- ✅ Vietnam server (VN2) specific data collection
-- ✅ Little Legend companion data tracking
-- ✅ Real-time leaderboard API endpoints
+- Automated daily leaderboard updates via Airflow
+- Frontend integration using provided database views
+- Vietnam server (VN2) specific data collection
+- Little Legend companion data tracking
+- Real-time leaderboard API endpoints
 
 **Run System Test**: `python test_complete_system.py`
 
 ---
-
-
-
-# TFT Analyzer - Teamfight Tactics Player Statistics App
-
-A comprehensive TFT (Teamfight Tactics) web application providing in-depth player analytics, match history tracking, and competitive insights for players and strategists.
-
-## Features
-
-- **Player Dashboard**: Comprehensive statistics including rank, LP, win rate, and average placement
-- **Match History**: MetaTFT-style expandable match rows with detailed team compositions
-- **Leaderboard**: Top 30 VN players with rankings and statistics
-- **Interactive Charts**: LP progression and placement distribution visualization
-- **Responsive Design**: Works perfectly on desktop and mobile devices
-- **Dark Theme**: Professional TFT-inspired design
-
-## Tech Stack
-
-- **Backend**: Flask (Python)
-- **Database**: PostgreSQL
-- **Frontend**: Bootstrap 5, Chart.js, Font Awesome
-- **Authentication**: Flask sessions with password hashing
-- **Data Visualization**: Chart.js for interactive graphs
-
-## Installation & Setup
-
-### Prerequisites
-
-- Python 3.8 or higher
-- PostgreSQL database
-- pip (Python package installer)
-
-### 1. Clone or Download the Project
-
-Download all project files to your local directory.
-
-### 2. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Database Setup
-
-#### Option A: Using PostgreSQL locally
-1. Install PostgreSQL on your system
-2. Create a new database:
-```sql
-CREATE DATABASE tft_analyzer;
-```
-3. Set environment variable:
-```bash
-export DATABASE_URL="postgresql://username:password@localhost:5432/tft_analyzer"
-```
-
-#### Option B: Using Replit (Recommended)
-The app is configured to work seamlessly on Replit with their PostgreSQL service.
-
-### 4. Environment Variables
-
-Set the following environment variables:
-
-```bash
-export DATABASE_URL="your_postgresql_connection_string"
-export SESSION_SECRET="your_secret_key_for_sessions"
-```
-
-### 5. Initialize the Database
-
-The app will automatically create tables and populate sample data on first run.
-
-### 6. Run the Application
-
-```bash
-# Development mode
-python main.py
-
-# Production mode with Gunicorn
-gunicorn --bind 0.0.0.0:5000 --reuse-port --reload main:app
-```
-
-The application will be available at `http://localhost:5000`
-
-## Sample Users
-
-The app comes with 30 pre-registered users representing top VN TFT players:
-
-| Username | Password | Riot ID |
-|----------|----------|---------|
-| tln_yby1 | password123 | TLN YBY1#2024 |
-| saigon_buffalo_shenlong | password123 | Saigon Buffalo Shenlong#VN01 |
-| team_flash_noway | password123 | Team Flash NoWay#FL01 |
-| ... | ... | ... |
-
-All users use the password: `password123`
-
-## Usage
-
-1. **Homepage**: View the leaderboard and top players
-2. **Login**: Use any of the sample usernames with password `password123`
-3. **Dashboard**: View your personal statistics and match history
-4. **Player Profiles**: Click on any player to view their detailed stats
-5. **Match Details**: Click on match rows to expand team compositions
-
-## Project Structure
-
-```
-tft-analyzer/
-├── app.py              # Flask app configuration
-├── main.py             # Application entry point
-├── models.py           # Database models
-├── routes.py           # Route handlers
-├── data_manager.py     # Data processing utilities
-├── sample_data.py      # Sample data initialization
-├── utils.py            # Helper functions
-├── static/             # CSS, JS, and assets
-│   ├── css/
-│   ├── js/
-│   └── img/
-├── templates/          # HTML templates
-└── requirements.txt    # Python dependencies
-```
-
-## Key Features Explained
-
-### Recent Games Component
-- **MetaTFT-style interface** with expandable match rows
-- **Champion previews** with cost-colored borders and star indicators
-- **LP tracking** with visual up/down indicators
-- **Team compositions** showing full champion builds
-
-### Player Statistics
-- **Rank progression** with tier and LP tracking
-- **Performance metrics** including win rate and average placement
-- **Interactive charts** for LP history and placement distribution
-- **Match analytics** with detailed breakdowns
-
-### Leaderboard System
-- **Real-time rankings** of top players
-- **Comprehensive stats** including games played and win rates
-- **Player profiles** accessible with detailed match histories
-
-## Customization
-
-The app uses authentic League of Legends champion data and can be easily extended to:
-- Connect to Riot Games API for live data
-- Add more detailed item tracking
-- Implement team composition analytics
-- Add trait synergy calculations
-
-## Troubleshooting
-
-### Database Connection Issues
-- Ensure PostgreSQL is running
-- Check DATABASE_URL environment variable
-- Verify database credentials
-
-### Missing Champion Images
-- Champion images load from League of Legends CDN
-- Fallback placeholders are provided for missing images
-
-### Chart Display Issues
-- Ensure JavaScript is enabled
-- Check browser console for errors
-- Verify Chart.js is loading properly
-
-## Support
-
-For issues or questions about the TFT Analyzer:
-1. Check the troubleshooting section
-2. Ensure all dependencies are installed
-3. Verify database connection
-4. Check browser console for JavaScript errors
-
----
-
-**Built with**: Flask, PostgreSQL, Bootstrap, Chart.js
-**Inspired by**: MetaTFT interface design
-**Data Source**: League of Legends Data Dragon (Champion images)

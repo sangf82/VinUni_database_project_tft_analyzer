@@ -10,7 +10,7 @@ import mysql.connector
 from dotenv import load_dotenv
 
 # Load environment variables
-load_dotenv(r"VinUni_database_project_tft_analyzer\.env")
+load_dotenv()
 
 def test_database_connection():
     """Test database connection and basic functionality"""
