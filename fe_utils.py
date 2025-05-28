@@ -34,12 +34,16 @@ def format_lp_change(lp_change):
 
 def get_placement_color(placement):
     """Get Bootstrap color class for placement"""
-    if placement <= 4:
-        return 'success'  # Green for top 4
-    elif placement <= 6:
+    if placement == 1:
+        return 'gold'  # Green for top 4
+    elif placement == 2:
         return 'warning'  # Yellow for 5-6
+    elif placement == 3:
+        return 'bronze'
+    elif placement == 4:
+        return 'top_4'  # Green for 4th
     else:
-        return 'danger'   # Red for 7-8
+        return 'other_top'   # Red for 7-8
 
 def get_placement_badge_color(placement):
     """Get specific color for placement badges"""
@@ -47,11 +51,11 @@ def get_placement_badge_color(placement):
         1: 'gold',      # Gold
         2: 'silver',    # Silver  
         3: 'bronze',    # Bronze
-        4: 'success',   # Green
-        5: 'info',      # Light blue
-        6: 'warning',   # Yellow
-        7: 'danger',    # Red
-        8: 'dark'       # Dark
+        4: 'top_4',   # Green
+        5: 'other_top',      # Light blue
+        6: 'other_top',   # Yellow
+        7: 'other_top',    # Red
+        8: 'other_top'       # Dark
     }
     return colors.get(placement, 'secondary')
 
