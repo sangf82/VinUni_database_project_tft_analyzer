@@ -10,23 +10,23 @@ import mysql.connector
 from dotenv import load_dotenv
 
 # Load environment variables
-load_dotenv("./.env")
+load_dotenv()
 
 def test_database_connection():
     """Test database connection and basic functionality"""
     print("🔧 Testing database connection...")
     try:
         conn = mysql.connector.connect(
-            host=os.environ.get("DB_HOST"),
-            port=int(os.environ.get("DB_PORT")),
-            user=os.environ.get("DB_USER"),
-            password=os.environ.get("DB_PASSWORD"),
-            database=os.environ.get("DB_NAME")
+            host=os.environ.get("LC_HOST"),
+            port=int(os.environ.get("LC_PORT")),
+            user=os.environ.get("LC_USER"),
+            password=os.environ.get("LC_PASSWORD"),
+            database=os.environ.get("LC_NAME")
         )
         cursor = conn.cursor()
         
         # Test basic connectivity
-        cursor.execute("SELECT DATABASE() as current_db, NOW() as db_time")
+        cursor.execute("SELECT DATABASE() as current_LC, NOW() as LC_time")
         result = cursor.fetchone()
         print(f"✅ Connected to database: {result[0]} at {result[1]}")
         
@@ -42,11 +42,11 @@ def test_table_structure():
     print("\n🏗️ Testing database structure...")
     try:
         conn = mysql.connector.connect(
-            host=os.environ.get("DB_HOST"),
-            port=int(os.environ.get("DB_PORT")),
-            user=os.environ.get("DB_USER"),
-            password=os.environ.get("DB_PASSWORD"),
-            database=os.environ.get("DB_NAME")
+            host=os.environ.get("LC_HOST"),
+            port=int(os.environ.get("LC_PORT")),
+            user=os.environ.get("LC_USER"),
+            password=os.environ.get("LC_PASSWORD"),
+            database=os.environ.get("LC_NAME")
         )
         cursor = conn.cursor()
         
@@ -81,11 +81,11 @@ def test_leaderboard_data():
     print("\n📊 Testing leaderboard data...")
     try:
         conn = mysql.connector.connect(
-            host=os.environ.get("DB_HOST"),
-            port=int(os.environ.get("DB_PORT")),
-            user=os.environ.get("DB_USER"),
-            password=os.environ.get("DB_PASSWORD"),
-            database=os.environ.get("DB_NAME")
+            host=os.environ.get("LC_HOST"),
+            port=int(os.environ.get("LC_PORT")),
+            user=os.environ.get("LC_USER"),
+            password=os.environ.get("LC_PASSWORD"),
+            database=os.environ.get("LC_NAME")
         )
         cursor = conn.cursor()
         
@@ -144,11 +144,11 @@ def test_views_functionality():
     print("\n👁️ Testing database views...")
     try:
         conn = mysql.connector.connect(
-            host=os.environ.get("DB_HOST"),
-            port=int(os.environ.get("DB_PORT")),
-            user=os.environ.get("DB_USER"),
-            password=os.environ.get("DB_PASSWORD"),
-            database=os.environ.get("DB_NAME")
+            host=os.environ.get("LC_HOST"),
+            port=int(os.environ.get("LC_PORT")),
+            user=os.environ.get("LC_USER"),
+            password=os.environ.get("LC_PASSWORD"),
+            database=os.environ.get("LC_NAME")
         )
         cursor = conn.cursor()
         

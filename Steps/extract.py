@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
-load_dotenv()
+load_dotenv(r"VinUni_database_project_tft_analyzer\.env")
 
 def extract_data_from_api(tag_line, game_name):
     """

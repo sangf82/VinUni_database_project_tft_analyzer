@@ -16,7 +16,7 @@ import mysql.connector
 from datetime import datetime
 
 # Load environment variables
-load_dotenv()
+load_dotenv(r"VinUni_database_project_tft_analyzer\.env")
 
 def get_latest_version():
     """

@@ -9,7 +9,7 @@ import requests
 from dotenv import load_dotenv
 
 # Load environment variables
-load_dotenv()
+load_dotenv(r"VinUni_database_project_tft_analyzer\.env")
 
 def extract_match_companions(match_id, region="vn2"):
     """

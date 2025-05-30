@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: tft_app
+-- Host: 127.0.0.1    Database: tft_db
 -- ------------------------------------------------------
 -- Server version	8.0.42
 
@@ -18,7 +18,13 @@
 --
 -- Table structure for table `champion`
 --
+<<<<<<< HEAD:fe_data_schema_test.sql
 USE tft_app;
+=======
+CREATE DATABASE IF NOT EXISTS `tft_db` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
+
+USE `tft_db`;
+>>>>>>> 04353fb2e533182eef3fa006c7f1166c8e78e709:data/fe_data_schema_test.sql
 
 DROP TABLE IF EXISTS `champion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
