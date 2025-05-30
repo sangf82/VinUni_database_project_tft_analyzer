@@ -18,6 +18,7 @@
 --
 -- Table structure for table `champion`
 --
+USE tft_app;
 
 DROP TABLE IF EXISTS `champion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

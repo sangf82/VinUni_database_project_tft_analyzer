@@ -35,7 +35,7 @@ CONFIG = {
     "db_host": "127.0.0.1",
     "db_port": "3306",
     "db_user": "root",
-    "db_password": "080204",
+    "db_password": "123456",
     "db_name": "tft_app",
 }
 
